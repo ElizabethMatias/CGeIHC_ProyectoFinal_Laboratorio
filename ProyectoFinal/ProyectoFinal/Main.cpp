@@ -40,8 +40,6 @@ bool firstMouse = true;
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
 
-
-
 int main( )
 {
     // Init GLFW
@@ -93,6 +91,9 @@ int main( )
     // Setup and compile our shaders
     Shader shader( "Shaders/modelLoading.vs", "Shaders/modelLoading.frag" );
     
+
+    Model pizarron((char*)"Models/pizarron/pizarron.obj");//ruta de mi modelo
+
     // Load models
     glm::mat4 projection = glm::perspective( camera.GetZoom( ), ( float )SCREEN_WIDTH/( float )SCREEN_HEIGHT, 0.1f, 100.0f );
     
@@ -123,6 +124,8 @@ int main( )
         // Draw the loaded model
         glm::mat4 model(1);
         glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        pizarron.Draw(shader);
+        glBindVertexArray(0);
 
         // Swap the buffers
         glfwSwapBuffers( window );
@@ -156,8 +159,6 @@ void DoMovement( )
     {
         camera.ProcessKeyboard( RIGHT, deltaTime );
     }
-
-   
 }
 
 // Is called whenever a key is pressed/released via GLFW
